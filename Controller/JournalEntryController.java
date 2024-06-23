@@ -58,10 +58,9 @@ public class JournalEntryController {
     }
 
     @GetMapping("/get/{myId}")
-    public ResponseEntity<JournalEntry> getAllEntriesById(@PathVariable Long myId) {
+    public ResponseEntity<?> getAllEntriesById(@PathVariable Long myId) {
         Optional<JournalEntry> entry = journalEntryService.getEntryById(myId);
-
-        if (entry.isPresent()) {
+        if (entry != null && entry.isPresent()) {
             JournalEntry myEntry = entry.get();
             return new ResponseEntity<>(myEntry, HttpStatus.OK);
         } else {
