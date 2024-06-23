@@ -5,6 +5,9 @@ import net.engineeringdigest.journalApp.Repository.JournalEntryRepository;
 
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,21 +30,25 @@ public class JournalEntryService {
     public List<JournalEntry> getAllEntries() {
         return journalEntryRepository.findAll();
     }
+
     public Optional<JournalEntry> getEntryById(Long Id) {
-        return journalEntryRepository.findById(Id);
+        Optional<JournalEntry> entry = journalEntryRepository.findById(Id);
+        if (entry.isPresent()) return entry;
+        else return null;
     }
 
-    public int deleteEntryById(Long Id) {
+    public ResponseEntity<?> deleteEntryById(Long Id) {
         journalEntryRepository.deleteById(Id);
-        return Response.SC_ACCEPTED;
+        return new ResponseEntity<>(HttpStatus.ACCEPTED );
     }
 
-    public int updateEntry(JournalEntry entry) {
-        if (journalEntryRepository.existsById(entry.getId())) {
-            entry.setDate(LocalDateTime.now());
-            journalEntryRepository.save(entry);
-            return Response.SC_CREATED;
-        }
-        return Response.SC_NOT_FOUND;
+    public ResponseEntity<?> updateEntry(JournalEntry entry) {
+//        if (journalEntryRepository.existsById(entry.getId())) {
+//            entry.setDate(LocalDateTime.now());
+//            journalEntryRepository.save(entry);
+//            return Response.SC_CREATED;
+//        }
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class HealthCheck {
-    @GetMapping("/health-check/{pong}")
+    @GetMapping(" ")
     public String healthCheck(@PathVariable String pong) {
-        return "ping" + pong;
+        return "ping " + pong;
     }
 }
